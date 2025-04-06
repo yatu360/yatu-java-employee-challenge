@@ -1,7 +1,9 @@
 package com.reliaquest.api.controller;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.reliaquest.api.exception.EmployeeNotFoundException;
@@ -52,8 +54,7 @@ public class EmployeeControllerTest {
 
     @Test
     void shouldReturn404IfEmployeeNotFound() throws Exception {
-        when(employeeService.getEmployeeById(999L))
-                .thenThrow(new EmployeeNotFoundException("Employee not found"));
+        when(employeeService.getEmployeeById(999L)).thenThrow(new EmployeeNotFoundException("Employee not found"));
 
         mockMvc.perform(get("/employees/999"))
                 .andExpect(status().isNotFound())
@@ -67,7 +68,8 @@ public class EmployeeControllerTest {
 
         when(employeeService.createEmployee(any(Employee.class))).thenReturn(saved);
 
-        String employeeJson = """
+        String employeeJson =
+                """
         {
           "firstName": "Jane",
           "lastName": "Doe",
@@ -76,12 +78,9 @@ public class EmployeeControllerTest {
         }
     """;
 
-        mockMvc.perform(post("/employees")
-                        .contentType("application/json")
-                        .content(employeeJson))
+        mockMvc.perform(post("/employees").contentType("application/json").content(employeeJson))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(100))
                 .andExpect(jsonPath("$.position").value("Analyst"));
     }
-
 }

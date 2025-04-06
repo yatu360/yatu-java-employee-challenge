@@ -35,4 +35,9 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new EmployeeNotFoundException("Employee with id " + id + " not found");
         }
     }
+
+    @Override
+    public Employee createEmployee(Employee employee) {
+        return restTemplate.postForObject(employeeApiUrl, employee, Employee.class);
+    }
 }
