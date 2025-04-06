@@ -40,4 +40,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee createEmployee(Employee employee) {
         return restTemplate.postForObject(employeeApiUrl, employee, Employee.class);
     }
+
+    @Override
+    public Employee updateEmployee(Long id, Employee employee) {
+        String url = employeeApiUrl + "/" + id;
+        restTemplate.put(url, employee);
+        return getEmployeeById(id);  // fetch updated employee
+    }
 }
