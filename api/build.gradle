@@ -4,6 +4,22 @@ plugins {
 
 dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // Web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+
+    // Optional: For testing RESTTemplate calls with a mock server
+    testImplementation 'org.springframework:spring-test'
+
+}
+
+test {
+    useJUnitPlatform()
 }
 
 springBoot {
