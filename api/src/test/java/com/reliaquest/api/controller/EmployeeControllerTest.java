@@ -36,4 +36,16 @@ public class EmployeeControllerTest {
                 .andExpect(jsonPath("$[0].firstName").value("Alice"))
                 .andExpect(jsonPath("$[1].lastName").value("Jones"));
     }
+
+    @Test
+    void shouldReturnEmployeeById() throws Exception {
+        Employee mockEmployee = new Employee(1L, "Alice", "Smith", "Engineer", 70000);
+
+        when(employeeService.getEmployeeById(1L)).thenReturn(mockEmployee);
+
+        mockMvc.perform(get("/employees/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstName").value("Alice"))
+                .andExpect(jsonPath("$.position").value("Engineer"));
+    }
 }
