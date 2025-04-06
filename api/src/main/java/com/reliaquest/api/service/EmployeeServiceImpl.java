@@ -3,8 +3,9 @@ package com.reliaquest.api.service;
 import com.reliaquest.api.exception.EmployeeNotFoundException;
 import com.reliaquest.api.model.Employee;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
-
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -64,5 +65,30 @@ public class EmployeeServiceImpl implements EmployeeService {
         } catch (HttpClientErrorException.NotFound e) {
             throw new EmployeeNotFoundException("Employee with ID " + id + " not found");
         }
+    }
+
+    @Override
+    public Integer getHighestSalaryOfEmployees() {
+        return getAllEmployees().stream()
+                .map(Employee::getEmployeeSalary)
+                .max(Integer::compareTo)
+                .orElse(null);
+    }
+
+    @Override
+    public List<String> getTop10HighestEarningEmployeeNames() {
+        return getAllEmployees().stream()
+                .sorted(Comparator.comparingDouble(Employee::getEmployeeSalary).reversed())
+                .limit(10)
+                .map(Employee::getEmployeeName)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Employee> getEmployeesByNameSearch(String name) {
+        return getAllEmployees().stream()
+                .filter(emp -> emp.getEmployeeName() != null
+                        && emp.getEmployeeName().toLowerCase().contains(name.toLowerCase()))
+                .collect(Collectors.toList());
     }
 }
