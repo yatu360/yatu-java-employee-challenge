@@ -4,6 +4,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.reliaquest.api.exception.EmployeeNotFoundException;
 import com.reliaquest.api.model.Employee;
 import com.reliaquest.api.service.EmployeeService;
 import java.util.List;
@@ -47,5 +48,15 @@ public class EmployeeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName").value("Alice"))
                 .andExpect(jsonPath("$.position").value("Engineer"));
+    }
+
+    @Test
+    void shouldReturn404IfEmployeeNotFound() throws Exception {
+        when(employeeService.getEmployeeById(999L))
+                .thenThrow(new EmployeeNotFoundException("Employee not found"));
+
+        mockMvc.perform(get("/employees/999"))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("Employee not found"));
     }
 }

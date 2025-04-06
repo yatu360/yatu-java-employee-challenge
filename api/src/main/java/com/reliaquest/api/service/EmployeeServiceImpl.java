@@ -1,10 +1,12 @@
 package com.reliaquest.api.service;
 
+import com.reliaquest.api.exception.EmployeeNotFoundException;
 import com.reliaquest.api.model.Employee;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -26,7 +28,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee getEmployeeById(Long id) {
-        String url = employeeApiUrl + "/" + id;
-        return restTemplate.getForObject(url, Employee.class);
+        try {
+            String url = employeeApiUrl + "/" + id;
+            return restTemplate.getForObject(url, Employee.class);
+        } catch (HttpClientErrorException.NotFound e) {
+            throw new EmployeeNotFoundException("Employee with id " + id + " not found");
+        }
     }
 }
