@@ -2,6 +2,7 @@ package com.reliaquest.api.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -107,5 +108,14 @@ public class EmployeeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(100))
                 .andExpect(jsonPath("$.position").value("Senior Analyst"));
+    }
+
+    @Test
+    void shouldDeleteEmployeeById() throws Exception {
+        // Service layer is void, so just mock the call
+        doNothing().when(employeeService).deleteEmployee(1L);
+
+        mockMvc.perform(delete("/employees/1"))
+                .andExpect(status().isOk());
     }
 }
