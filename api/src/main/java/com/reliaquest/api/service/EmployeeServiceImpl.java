@@ -23,4 +23,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee[] response = restTemplate.getForObject(employeeApiUrl, Employee[].class);
         return Arrays.asList(response);
     }
+
+    @Override
+    public Employee getEmployeeById(Long id) {
+        String url = employeeApiUrl + "/" + id;
+        return restTemplate.getForObject(url, Employee.class);
+    }
 }
