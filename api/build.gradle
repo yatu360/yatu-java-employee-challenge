@@ -8,14 +8,18 @@ dependencies {
     // Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    // Lombok
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
+    // For Lombok
+    compileOnly 'org.projectlombok:lombok:1.18.38'
+    annotationProcessor 'org.projectlombok:lombok:1.18.38'
+    testCompileOnly 'org.projectlombok:lombok:1.18.38'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.38'
 
-
-    // Optional: For testing RESTTemplate calls with a mock server
     testImplementation 'org.springframework:spring-test'
 
+}
+
+compileJava {
+    options.annotationProcessorPath = configurations.annotationProcessor
 }
 
 test {
