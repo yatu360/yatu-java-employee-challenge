@@ -3,8 +3,12 @@ package com.reliaquest.api.controller;
 import com.reliaquest.api.model.Employee;
 import com.reliaquest.api.service.EmployeeService;
 import java.util.List;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
@@ -20,9 +24,11 @@ public class EmployeeController {
         return employeeService.getAllEmployees();
     }
 
-    @GetMapping("/{id}")
-    public Employee getEmployeeById(@PathVariable Long id) {
-        return employeeService.getEmployeeById(id);
+    @GetMapping("/employees/{id}")
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
+        log.info("Received request to fetch employee with ID: {}", id);
+        Employee employee = employeeService.getEmployeeById(id);
+        return ResponseEntity.ok(employee);
     }
 
     @PostMapping

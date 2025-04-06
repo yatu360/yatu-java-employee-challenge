@@ -4,12 +4,16 @@ import com.reliaquest.api.exception.EmployeeNotFoundException;
 import com.reliaquest.api.model.Employee;
 import java.util.Arrays;
 import java.util.List;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+@Slf4j
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
@@ -27,13 +31,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         return Arrays.asList(response);
     }
 
-    @Override
     public Employee getEmployeeById(Long id) {
+        log.info("Fetching employee by ID: {}", id);
         try {
-            String url = employeeApiUrl + "/" + id;
-            return restTemplate.getForObject(url, Employee.class);
-        } catch (HttpClientErrorException.NotFound e) {
-            throw new EmployeeNotFoundException("Employee with id " + id + " not found");
+            ResponseEntity<Employee> response = restTemplate.getForEntity(employeeApiUrl + "/" + id, Employee.class);
+            Employee employee = response.getBody();
+            log.debug("Received response: {}", employee);
+            return employee;
+        } catch (Exception e) {
+            log.error("Error fetching employee by ID: {}", id, e);
+            throw e;
         }
     }
 

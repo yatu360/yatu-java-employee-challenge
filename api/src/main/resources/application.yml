@@ -8,3 +8,7 @@ server:
 employee:
   api:
     base-url: http://localhost:8112/api/v1/employee
+
+logging:
+  level:
+    com.reliaquest.api: DEBUG
