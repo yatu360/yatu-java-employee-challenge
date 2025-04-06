@@ -2,7 +2,7 @@ package com.reliaquest.api.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -107,5 +107,21 @@ public class EmployeeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(100))
                 .andExpect(jsonPath("$.position").value("Senior Analyst"));
+    }
+
+    @Test
+    void shouldDeleteEmployeeById() throws Exception {
+        doNothing().when(employeeService).deleteEmployee(1L);
+
+        mockMvc.perform(delete("/employees/1"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldReturn404WhenDeletingNonExistingEmployee() throws Exception {
+        doThrow(new EmployeeNotFoundException("Not found")).when(employeeService).deleteEmployee(999L);
+
+        mockMvc.perform(delete("/employees/999"))
+                .andExpect(status().isNotFound());
     }
 }

@@ -47,4 +47,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         restTemplate.put(url, employee);
         return getEmployeeById(id);  // fetch updated employee
     }
+
+    @Override
+    public void deleteEmployee(Long id) {
+        String url = employeeApiUrl + "/" + id;
+        try {
+            restTemplate.delete(url);
+        } catch (HttpClientErrorException.NotFound e) {
+            throw new EmployeeNotFoundException("Employee with ID " + id + " not found");
+        }
+    }
 }
