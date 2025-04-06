@@ -89,10 +89,10 @@ public class EmployeeControllerTest {
         Employee input = new Employee(null, "Jane", "Doe", "Senior Analyst", 75000.0);
         Employee updated = new Employee(100L, "Jane", "Doe", "Senior Analyst", 75000.0);
 
-        when(employeeService.updateEmployee(eq(100L), any(Employee.class)))
-                .thenReturn(updated);
+        when(employeeService.updateEmployee(eq(100L), any(Employee.class))).thenReturn(updated);
 
-        String updatedJson = """
+        String updatedJson =
+                """
         {
           "firstName": "Jane",
           "lastName": "Doe",
@@ -101,9 +101,7 @@ public class EmployeeControllerTest {
         }
     """;
 
-        mockMvc.perform(put("/employees/100")
-                        .contentType("application/json")
-                        .content(updatedJson))
+        mockMvc.perform(put("/employees/100").contentType("application/json").content(updatedJson))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(100))
                 .andExpect(jsonPath("$.position").value("Senior Analyst"));
@@ -113,15 +111,15 @@ public class EmployeeControllerTest {
     void shouldDeleteEmployeeById() throws Exception {
         doNothing().when(employeeService).deleteEmployee(1L);
 
-        mockMvc.perform(delete("/employees/1"))
-                .andExpect(status().isOk());
+        mockMvc.perform(delete("/employees/1")).andExpect(status().isOk());
     }
 
     @Test
     void shouldReturn404WhenDeletingNonExistingEmployee() throws Exception {
-        doThrow(new EmployeeNotFoundException("Not found")).when(employeeService).deleteEmployee(999L);
+        doThrow(new EmployeeNotFoundException("Not found"))
+                .when(employeeService)
+                .deleteEmployee(999L);
 
-        mockMvc.perform(delete("/employees/999"))
-                .andExpect(status().isNotFound());
+        mockMvc.perform(delete("/employees/999")).andExpect(status().isNotFound());
     }
 }

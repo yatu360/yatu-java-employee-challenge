@@ -5,6 +5,7 @@ import com.reliaquest.api.model.Employee;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -15,8 +16,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final RestTemplate restTemplate;
     private final String employeeApiUrl;
 
-    public EmployeeServiceImpl(RestTemplate restTemplate, @Value("${employee.api.base-url}") String employeeApiUrl) {
-        this.restTemplate = restTemplate;
+    public EmployeeServiceImpl(RestTemplateBuilder builder, @Value("${employee.api.base-url}") String employeeApiUrl) {
+        this.restTemplate = builder.build();
         this.employeeApiUrl = employeeApiUrl;
     }
 
@@ -45,7 +46,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee updateEmployee(Long id, Employee employee) {
         String url = employeeApiUrl + "/" + id;
         restTemplate.put(url, employee);
-        return getEmployeeById(id);  // fetch updated employee
+        return getEmployeeById(id); // fetch updated employee
     }
 
     @Override
