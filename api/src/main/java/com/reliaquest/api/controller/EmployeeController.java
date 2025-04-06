@@ -24,4 +24,9 @@ public class EmployeeController {
     public Employee getEmployeeById(@PathVariable Long id) {
         return employeeService.getEmployeeById(id);
     }
+
+    @PostMapping
+    public Employee createEmployee(@RequestBody Employee employee) {
+        return employeeService.createEmployee(employee);
+    }
 }

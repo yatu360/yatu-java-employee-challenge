@@ -10,5 +10,4 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleNotFound(EmployeeNotFoundException ex) {
         return ResponseEntity.status(404).body(ex.getMessage());
     }
-
 }
