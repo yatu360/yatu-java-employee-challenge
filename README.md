@@ -113,17 +113,18 @@ com.reliaquest.api
 
 ---
 
-## ✅ Improvements for future
-Add contract tests for external API
-Use @Valid and JSR-380 annotations for request validation
-Implement global exception handling (@ControllerAdvice)
-Standardize error responses
-Add response time logging with AOP
-Add Micrometer metrics + Prometheus/Grafana support
-Add authentication (e.g. JWT or Basic Auth)
-Add role-based authorization
-Add CI/CD pipeline (GitHub Actions or GitLab CI)
-Refactor hardcoded URLs into config properties
+## ✅ Improvements for Future
+
+- [ ] Add contract tests for external API
+- [ ] Use `@Valid` and JSR-380 annotations for request validation
+- [ ] Implement global exception handling (`@ControllerAdvice`)
+- [ ] Standardize error responses
+- [ ] Add response time logging with AOP
+- [ ] Add Micrometer metrics + Prometheus/Grafana support
+- [ ] Add authentication (e.g. JWT or Basic Auth)
+- [ ] Add role-based authorization
+- [ ] Add CI/CD pipeline (GitHub Actions or GitLab CI)
+- [ ] Refactor hardcoded URLs into config properties
 
 # Implement this API
 
