@@ -126,6 +126,8 @@ com.reliaquest.api
 - [ ] Add CI/CD pipeline (GitHub Actions or GitLab CI)
 - [ ] Refactor hardcoded URLs into config properties
 
+
+# ReliaQuest Coding Assessment
 # Implement this API
 
 #### In this assessment you will be tasked with filling out the functionality of different methods that will be listed further down.
