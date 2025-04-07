@@ -1,4 +1,6 @@
-# Employee API
+# ReliaQuest Coding Challenge
+
+## Employee API
 
 A RESTful API for managing employees, implemented using Spring Boot. It integrates with an external system and provides endpoints to create, read, update, and delete employee data, along with some analytics features.
 
