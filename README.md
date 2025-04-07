@@ -1,18 +1,141 @@
-# ReliaQuest Coding Challenge
+# Employee API
+
+A RESTful API for managing employees, implemented using Spring Boot. It integrates with an external system and provides endpoints to create, read, update, and delete employee data, along with some analytics features.
+
+---
+
+## 🚀 Base URL
+
+```
+http://localhost:8111/employee
+```
+
+---
+
+## 📦 API Endpoints
+
+### 🔍 Get All Employees
+
+- **GET** `/getAllEmployees`
+- **Description:** Returns a list of all employees.
+
+### 🔍 Search Employees by Name
+
+- **GET** `/search?name={searchTerm}`
+- **Description:** Search for employees by partial or full name match.
+
+### 🔍 Get Employee by ID
+
+- **GET** `/{id}`
+- **Description:** Retrieve a specific employee by their ID.
+
+### 💵 Get Highest Salary
+
+- **GET** `/highest-salary`
+- **Description:** Returns the highest salary among all employees.
+
+### 🏆 Top 10 Highest Earners
+
+- **GET** `/top-ten-earners`
+- **Description:** Returns a list of the top 10 employee names by salary.
+
+### ➕ Create Employee
+
+- **POST** `/`
+- **Description:** Creates a new employee.
+- **Body Example:**
+
+```json
+{
+  "employee_name": "Tiger Nixon",
+  "employee_salary": 320800,
+  "employee_age": 61,
+  "employee_title": "Vice Chair Executive Principal",
+  "employee_email": "tnixon@company.com"
+}
+```
+
+### ✏️ Update Employee by ID
+
+- **PUT** `/{id}`
+- **Description:** Updates an existing employee by ID.
+- **Body Example:** Same as POST.
+
+### ❌ Delete Employee by ID
+
+- **DELETE** `/{id}`
+- **Description:** Deletes an employee by ID.
+
+---
+
+## 🔧 Tech Stack
+
+- Java 17
+- Spring Boot 3
+- Gradle
+- Lombok
+- Spring AOP (method logging)
+- JUnit 5 & MockMVC (for testing)
+
+---
+
+## 🧪 Running Tests
+
+```bash
+./gradlew test
+```
+
+---
+
+## 📜 Logging with AOP
+
+This project includes Spring AOP to automatically log method calls in `controller` and `service` layers:
+
+```
+➡️ Entering: com.reliaquest.api.service.EmployeeServiceImpl.getAllEmployees() with arguments = []
+⬅️ Exiting: com.reliaquest.api.service.EmployeeServiceImpl.getAllEmployees() with result = [...]
+```
+
+---
+
+## 📁 Structure
+
+```
+com.reliaquest.api
+├── controller        # REST endpoints
+├── service           # Business logic
+├── model             # Employee model
+├── aop               # LoggingAspect.java
+└── ApiApplication    # Main app
+```
+
+---
+
+## ✅ Improvements for future
+Add contract tests for external API
+Use @Valid and JSR-380 annotations for request validation
+Implement global exception handling (@ControllerAdvice)
+Standardize error responses
+Add response time logging with AOP
+Add Micrometer metrics + Prometheus/Grafana support
+Add authentication (e.g. JWT or Basic Auth)
+Add role-based authorization
+Add CI/CD pipeline (GitHub Actions or GitLab CI)
+Refactor hardcoded URLs into config properties
+
+# Implement this API
 
 #### In this assessment you will be tasked with filling out the functionality of different methods that will be listed further down.
 
 These methods will require some level of API interactions with Mock Employee API at http://localhost:8112/api/v1/employee.
 
-Please keep the following in mind when doing this assessment: 
+Please keep the following in mind when doing this assessment:
 * clean coding practices
-* test driven development 
+* test driven development
 * logging
 * scalability
 
-See the section **How to Run Mock Employee API** for further instruction on starting the Mock Employee API.
-
-### Endpoints to implement (API module)
+### Endpoints to implement
 
 _See `com.reliaquest.api.controller.IEmployeeController` for details._
 
@@ -55,94 +178,5 @@ deleteEmployeeById(...)
     output - name of the employee
     description - this should delete the employee with specified id given, otherwise error
 
-### Endpoints from Mock Employee API (Server module)
-
-    request:
-        method: GET
-        full route: http://localhost:8112/api/v1/employee
-    response:
-        {
-            "data": [
-                {
-                    "id": "4a3a170b-22cd-4ac2-aad1-9bb5b34a1507",
-                    "employee_name": "Tiger Nixon",
-                    "employee_salary": 320800,
-                    "employee_age": 61,
-                    "employee_title": "Vice Chair Executive Principal of Chief Operations Implementation Specialist",
-                    "employee_email": "tnixon@company.com",
-                },
-                ....
-            ],
-            "status": "Successfully processed request."
-        }
----
-    request:
-        method: GET
-        path: 
-            id (String)
-        full route: http://localhost:8112/api/v1/employee/{id}
-        note: 404-Not Found, if entity is unrecognizable
-    response:
-        {
-            "data": {
-                "id": "5255f1a5-f9f7-4be5-829a-134bde088d17",
-                "employee_name": "Bill Bob",
-                "employee_salary": 89750,
-                "employee_age": 24,
-                "employee_title": "Documentation Engineer",
-                "employee_email": "billBob@company.com",
-            },
-            "status": ....
-        }
----
-    request:
-        method: POST
-        body: 
-            name (String | not blank),
-            salary (Integer | greater than zero),
-            age (Integer | min = 16, max = 75),
-            title (String | not blank)
-        full route: http://localhost:8112/api/v1/employee
-    response:
-        {
-            "data": {
-                "id": "d005f39a-beb8-4390-afec-fd54e91d94ee",
-                "employee_name": "Jill Jenkins",
-                "employee_salary": 139082,
-                "employee_age": 48,
-                "employee_title": "Financial Advisor",
-                "employee_email": "jillj@company.com",
-            },
-            "status": ....
-        }
----
-    request:
-        method: DELETE
-        body:
-            name (String | not blank)
-        full route: http://localhost:8112/api/v1/employee/{name}
-    response:
-        {
-            "data": true,
-            "status": ....
-        }
-
-### How to Run Mock Employee API (Server module)
-
-Start **Server** Spring Boot application.
-`./gradlew server:bootRun`
-
-Each invocation of **Server** application triggers a new list of mock employee data. While live testing, you'll want to keep 
-this server running if you require consistent data. Additionally, the web server will randomly choose when to rate
-limit requests, so keep this mind when designing/implementing the actual Employee API.
-
-_Note_: Console logs each mock employee upon startup.
-
-### Code Formatting
-
-This project utilizes Gradle plugin [Diffplug Spotless](https://github.com/diffplug/spotless/tree/main/plugin-gradle) to enforce format
-and style guidelines with every build. 
-
-To resolve any errors, you must run **spotlessApply** task.
-`./gradlew spotlessApply`
-
+### Testing
+Please include proper integration and/or unit tests.
