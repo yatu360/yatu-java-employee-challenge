@@ -13,4 +13,10 @@ public interface EmployeeService {
     Employee updateEmployee(Long id, Employee employee);
 
     void deleteEmployee(Long id);
+
+    Integer getHighestSalaryOfEmployees();
+
+    List<String> getTop10HighestEarningEmployeeNames();
+
+    List<Employee> getEmployeesByNameSearch(String name);
 }

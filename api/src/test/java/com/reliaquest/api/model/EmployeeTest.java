@@ -5,29 +5,21 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 public class EmployeeTest {
-
     @Test
-    void shouldCreateEmployeeObjectCorrectly() {
+    void testEmployeeFields() {
         Employee employee = new Employee();
-        employee.setId(1L);
-        employee.setFirstName("John");
-        employee.setLastName("Doe");
-        employee.setPosition("Developer");
-        employee.setSalary(75000.0);
+        employee.setId("uuid");
+        employee.setEmployeeName("John Doe");
+        employee.setEmployeeSalary(90000);
+        employee.setEmployeeAge(35);
+        employee.setEmployeeTitle("Software Engineer");
+        employee.setEmployeeEmail("john.doe@example.com");
 
-        assertEquals(1L, employee.getId());
-        assertEquals("John", employee.getFirstName());
-        assertEquals("Doe", employee.getLastName());
-        assertEquals("Developer", employee.getPosition());
-        assertEquals(75000.0, employee.getSalary());
-    }
-
-    @Test
-    void shouldCompareEmployeesCorrectly() {
-        Employee e1 = new Employee(1L, "Jane", "Smith", "Manager", 90000.0);
-        Employee e2 = new Employee(1L, "Jane", "Smith", "Manager", 90000.0);
-
-        assertEquals(e1, e2);
-        assertEquals(e1.hashCode(), e2.hashCode());
+        assertEquals("uuid", employee.getId());
+        assertEquals("John Doe", employee.getEmployeeName());
+        assertEquals(90000, employee.getEmployeeSalary());
+        assertEquals(35, employee.getEmployeeAge());
+        assertEquals("Software Engineer", employee.getEmployeeTitle());
+        assertEquals("john.doe@example.com", employee.getEmployeeEmail());
     }
 }
